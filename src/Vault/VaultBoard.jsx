@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { defaultVaults } from "../data/vault";
+import { filterVaults, sortVaults } from "../utils/vault";
 import VaultCard from "./VaultCard";
 import VaultForm from "./VaultForm";
 import VaultSearch from "./VaultSearch";
@@ -11,36 +12,17 @@ export default function VaultBoard() {
   const [sortBy, setSortBy] = useState("date");
   const [sortOrder, setSortOrder] = useState("desc");
 
-
   const handleAddBookMark = (newVault) => {
-    setVaults((prev) => [...prev, { ...newVault, createdAt: Date.now() }]);
+    const timestampedVault = {
+      ...newVault,
+      createdAt : Date.now()
+    }
+    setVaults((prev) => [...prev, timestampedVault]);
   };
 
-  const filteredVaults = vaults.filter((vault) => {
-    const query = searchQuery.toLowerCase().trim();
-    if (!query) return true;
+  const filteredVaults = filterVaults(vaults, searchQuery)
 
-    return (
-      vault.userName.toLowerCase().includes(query) ||
-      vault.url.toLowerCase().includes(query)
-    );
-  });
-
-  const displayedVaults = [...filteredVaults].sort((a, b) => {
-    if (sortBy === "name") {
-      const nameA = new URL(
-        a.url.startsWith("http") ? a.url : `https://${a.url}`,
-      ).hostname.toLowerCase();
-      const nameB = new URL(
-        b.url.startsWith("http") ? b.url : `https://${b.url}`,
-      ).hostname.toLowerCase();
-      if (sortOrder === "asc") return nameA.localeCompare(nameB);
-      return nameB.localeCompare(nameA);
-    } else {
-      if (sortOrder === "asc") return a.createdAt - b.createdAt;
-      return b.createdAt - a.createdAt;
-    }
-  });
+  const displayedVaults = sortVaults(filteredVaults, sortBy, sortOrder)
 
   return (
     <>
