@@ -22,8 +22,8 @@ export function sortVaults(vaults, sortBy, sortOrder) {
       if (sortOrder === "asc") return nameA.localeCompare(nameB);
       return nameB.localeCompare(nameA);
     } else {
-      const dateA = a.createdAt || 0; 
-      const dateB = b.createdAt || 0; 
+      const dateA = a.createdAt || 0;
+      const dateB = b.createdAt || 0;
       if (sortOrder === "asc") return dateA - dateB;
       return dateB - dateA;
     }

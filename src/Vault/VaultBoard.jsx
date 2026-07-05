@@ -8,21 +8,20 @@ import VaultSearch from "./VaultSearch";
 export default function VaultBoard() {
   const [vaults, setVaults] = useState(defaultVaults);
   const [searchQuery, setSearchQuery] = useState("");
-
   const [sortBy, setSortBy] = useState("date");
   const [sortOrder, setSortOrder] = useState("desc");
 
   const handleAddBookMark = (newVault) => {
     const timestampedVault = {
       ...newVault,
-      createdAt : Date.now()
-    }
+      createdAt: Date.now(),
+    };
     setVaults((prev) => [...prev, timestampedVault]);
   };
 
-  const filteredVaults = filterVaults(vaults, searchQuery)
+  const filteredVaults = filterVaults(vaults, searchQuery);
 
-  const displayedVaults = sortVaults(filteredVaults, sortBy, sortOrder)
+  const displayedVaults = sortVaults(filteredVaults, sortBy, sortOrder);
 
   return (
     <>
