@@ -26,7 +26,7 @@ export default function VaultBoard() {
     );
   });
 
-  const sortedAndFilteredVaults = [...filteredVaults].sort((a, b) => {
+  const displayedVaults = [...filteredVaults].sort((a, b) => {
     if (sortBy === "name") {
       const nameA = new URL(
         a.url.startsWith("http") ? a.url : `https://${a.url}`,
@@ -57,10 +57,10 @@ export default function VaultBoard() {
           />
           {/* 4. Grid Display & Conditional Rendering Logic */}
           <div>
-            {sortedAndFilteredVaults.length > 0 ? (
+            {displayedVaults.length > 0 ? (
               // IF results are found: Render the filtered Grid
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-                {sortedAndFilteredVaults.map((vault) => (
+                {displayedVaults.map((vault) => (
                   <VaultCard key={vault.id} vault={vault} />
                 ))}
               </div>
