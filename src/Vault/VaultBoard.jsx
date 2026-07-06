@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { defaultVaults } from "../data/vault";
 import { filterVaults, sortVaults } from "../utils/vault";
 import VaultCard from "./VaultCard";
 import VaultForm from "./VaultForm";
 import VaultSearch from "./VaultSearch";
+import { loadVaults, saveVaults } from "../services/storage";
 
 export default function VaultBoard() {
-  const [vaults, setVaults] = useState(defaultVaults);
+  const [vaults, setVaults] = useState(() => loadVaults() ?? defaultVaults);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("date");
   const [sortOrder, setSortOrder] = useState("desc");
+
+  useEffect(()=> {
+    saveVaults(vaults)
+  },[vaults])
 
   const handleAddBookMark = (newVault) => {
     const timestampedVault = {
